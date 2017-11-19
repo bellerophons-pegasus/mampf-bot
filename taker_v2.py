@@ -99,6 +99,7 @@ web3 = Web3(HTTPProvider('https://mainnet.infura.io/Ky03pelFIxoZdAUsr82w'))
 orders_sells = []
 orders_buys = []
 trades = []
+returnTicker = []
 
 def updateOrders(newOrders):
     global orders_sells, orders_buys, token, userAccount
@@ -135,6 +136,15 @@ def updateTrades(newTrades):
         trades.extend(valid_new_trades)
         trades = sorted(trades, key=itemgetter('date', 'amount'), reverse=True)
 
+def updateReturnTicker(newReturnTicker):
+    global returnTicker
+    #valid_new_returnTicker = [x for x in newReturnTicker if ('tokenAddr' not in x or x['tokenAddr'].lower() == token.lower()) and x not in trades]
+    #if len(valid_new_trades) > 0:
+    #    print("Adding " + str(len(valid_new_trades)) + " new trades to the list...")
+    #    trades.extend(valid_new_trades)
+    #    trades = sorted(trades, key=itemgetter('date', 'amount'), reverse=True)
+
+
 def printOrderBook():
     global orders_sells, orders_buys
     ordersPerSide = 10
@@ -161,6 +171,15 @@ def printTrades():
     numTrades = 10
     for trade in trades[0:numTrades]:
         print(trade['date'] + " " + trade['side'] + " " + trade['amount'] + " @ " + trade['price'])
+
+def printReturnticker():
+    global returnTicker
+    print()
+    print('Return Ticker')
+    print('-------------')
+    numReturnTicker = 10
+    for entry in returnTicker[0:numReturnTicker]:
+        print(entry)
 
 def trade(order, etherAmount):
     global user_wallet_private_key, web3, addressEtherDelta, contractEtherDelta
@@ -204,6 +223,7 @@ def send_getMarket(ws):
     global token, userAccount
     print("Sending getMarket request")
     ws.send('42["getMarket",{"token":"' + token + '","user":"' + userAccount + '"}]')
+#    ws.send('42["getMarket"]')
 
 def on_cont_message(ws, message_string, continueflag):
     # This event never seems to trigger, but better to be aware of it anyway
@@ -222,6 +242,15 @@ def on_message(ws, message):
     if 'market' in j:
         print("Received market reply!")
         market = j[1]
+        if 'returnTicker' in market:
+            updateReturnTicker(j[1]['returnTicker'])
+            if token in j[1]['returnTicker']:
+                print('GOT TOKEN')
+            #print(j[1]['returnTicker'])
+            print('-----> Return Ticker is present!!')
+            #print(j[1]['returnTicker'])
+            #printReturnTicker()
+            
         # Fill the list of trades
         if 'trades' in market:
             updateTrades(j[1]['trades'])
