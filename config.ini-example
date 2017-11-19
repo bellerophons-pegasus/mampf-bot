@@ -1,0 +1,22 @@
+[User]
+# Your Ethereum wallet's public key
+# You can copy-paste it from your MetaMask browser extension
+userAccount = 
+
+# Your Ethereum wallet's private key
+# This is only needed if you want the buy order to succeed.
+userPrivateKey = 
+
+
+[EtherDelta]
+# EtherDelta contract address
+# This rarely changes.
+# etherdelta's_2 contact address
+addressEtherDelta = 0x8d12a197cB00D4747a1fe03395095ce2A5CC6819
+
+# The smart contract address of the token you want to trade
+# On EtherDelta.com, click "Tokens" in the top-right hand corner,
+# click the token you want to trade and copy-paste the 0x... address.
+# Example: Smart Contract: 0x9742fa8cb51d294c8267ddfead8582e16f18e421
+# Example here: Aeternity token
+token = 0x5ca9a71b1d01849c0a95490cc00559717fcf0d1d

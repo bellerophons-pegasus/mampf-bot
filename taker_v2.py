@@ -63,32 +63,30 @@ import time
 import json
 import sys
 import web3
+import configparser
 
 from web3 import Web3, HTTPProvider
 from operator import itemgetter
 from collections import OrderedDict
 
 #################
-# CONFIGURATION #
+# CONFIGURATION 
+# stored in config.ini
 #################
 
-# Your Ethereum wallet's public key
-# You can copy-paste it from your MetaMask browser extension
-userAccount = '0x0cA57d9435e912c4a963d345cC2ABb139e7662F4'
+config = configparser.ConfigParser()
+config.sections()
+config.read('config.ini')
 
-# Your Ethereum wallet's private key
-# This is only needed if you want the buy order to succeed.
-user_wallet_private_key = ''
+userAccount = config.get('User','userAccount')
+user_wallet_private_key = config.get('User', 'userPrivateKey')
+
+addressEtherDelta = config.get('EtherDelta', 'addressEtherDelta')
+
 
 # The smart contract address of the token you want to trade
-# On EtherDelta.com, click "Tokens" in the top-right hand corner,
-# click the token you want to trade and copy-paste the 0x... address.
-# Example: Smart Contract: 0x9742fa8cb51d294c8267ddfead8582e16f18e421
-token = "0x5ca9a71b1d01849c0a95490cc00559717fcf0d1d"  # Aeternity token
+token = config.get('EtherDelta', 'token')
 
-# EtherDelta contract address
-# This rarely changes.
-addressEtherDelta = '0x8d12a197cB00D4747a1fe03395095ce2A5CC6819'    # etherdelta_2's contract address
 
 ########################
 # END OF CONFIGURATION #
