@@ -1,2 +1,4 @@
 # mampf-bot
-bot for etherdelta
+A bot for etherdelta in python.
+Based on the work of tomvanbraeckel; see https://github.com/etherdelta/etherdelta.github.io/issues/225
+
